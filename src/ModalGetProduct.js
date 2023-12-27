@@ -21,11 +21,11 @@ export const ModalGetProduct = ({
   currentFactura,
 }) => {
   const [filterText, setFilterText] = React.useState("");
-  const facturaProductosIds = currentFactura.articulos.map((element) => element['codigo']);
+  const facturaProductosIds = currentFactura.articulos.map((element) => element['iD_Orden']);
   const filteredData =
     data.filter((element) => {
       const dataString = Object.values(element).join(" ").toLowerCase();
-      return dataString.includes(filterText.toLowerCase()) && !facturaProductosIds.includes(element['codigo']);
+      return dataString.includes(filterText.toLowerCase()) && !facturaProductosIds.includes(element['iD_Orden']);
     }) || [];
 
   const columnsCustom = [

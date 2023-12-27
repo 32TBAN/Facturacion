@@ -9,11 +9,11 @@ export const SaleScreen = ({data}) => {
   const navigate = useNavigate();
 
   const handleEdit = (id) => {
-    navigate(`/Orden/Editar/${id}`);
+    navigate(`/Venta/${id}`);
   };
 
   const handleAdd = () => {
-    navigate(`/Orden/Guardar`);
+    navigate(`/Venta`);
   };
 
   const handleDelete = (id) => {

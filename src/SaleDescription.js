@@ -291,7 +291,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
         title={'Agregar Producto'}
         columns={productosColumns}
         data={productos}
-        id={'codigo'}
+        id={'iD_Orden'}
         currentFactura={currentFactura}
         handleAdd={handleAddProduct}
       />

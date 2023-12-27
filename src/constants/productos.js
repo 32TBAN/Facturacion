@@ -24,15 +24,15 @@ export const productos = [
 
 export const productosColumns = [
     {
-        id: 'codigo',
+        id: 'iD_Producto',
         label: 'Código',
     },
     {
-        id: 'descripcion',
+        id: 'nombre',
         label: 'Descripción',
     },
     {
-        id: 'existencia',
+        id: 'stock',
         label: 'Existencias',
     },
     {

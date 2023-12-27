@@ -19,13 +19,13 @@ function App() {
 
 
   useEffect(() => {
-    axios.get(`${baseURL}/Orden/Listar`).then((response) => {
+    axios.get(`${baseURL}/Listar`).then((response) => {
       setFacturas(response.data.orden);
     });
-    axios.get(`${baseURL}/Orden/ListarProductos`).then((response) => {
+    axios.get(`${baseURL}/ListarProductos`).then((response) => {
       setProductos(response.data.producto);
     });
-    axios.get(`${baseURL}/Orden/ListarUsuarios`).then((response) => {
+    axios.get(`${baseURL}/ListarUsuarios`).then((response) => {
       setClientes(response.data.cliente);
     });
   }, []);

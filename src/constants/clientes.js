@@ -27,7 +27,7 @@ export const clientes = [
 
 export const clientesColumns = [
     {
-        id: 'numeroCliente',
+        id: 'iD_Cliente',
         label: 'Número Cliente',
     },
     {
