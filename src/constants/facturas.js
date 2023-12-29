@@ -61,7 +61,7 @@ export const productosFacturaColumns = [
         label: 'Existencia',
     },
     {
-        id: 'stock',
+        id: 'cantidad',
         label: 'Cantidad',
     },
     {

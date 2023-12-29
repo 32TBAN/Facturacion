@@ -11,21 +11,25 @@ import { ModalGetProduct } from "./ModalGetProduct";
 import { calcTotal, calcTotalProductos, generateOrder, getObjectById } from "./utils";
 
 export const SaleDescription = ({ data, clients, productos }) => {
-  const params = useParams();
-  const [currentFactura, setCurrentFactura] = React.useState(
+  const params = useParams();//usa los parametros del query
+  const [currentFactura, setCurrentFactura] = React.useState(//inicia variables con un id de la factura
     params?.iD_Orden ? getObjectById(data, "iD_Orden", params?.iD_Orden) :
     generateOrder(data)
   );
+  
   const [currentCliente, setCurrentCliente] = React.useState(
-    getObjectById(clients, "cedula", currentFactura?.cedulaCliente)
+    getObjectById(clients, "id", currentFactura?.iD_Cliente)
   );
+
   const [modalClientIsOpen, setModalClientIsOpen] = React.useState(false);
   const [modalProdIsOpen, setModalProdIsOpen] = React.useState(false);
 
+  //console.log(currentFactura)
 
   const [total, setTotal] = React.useState(
     calcTotal(currentFactura?.articulos)
   );
+
   const [totalProductos, setTotalProductos] = React.useState(
     calcTotalProductos(currentFactura?.articulos)
   );
@@ -37,16 +41,15 @@ export const SaleDescription = ({ data, clients, productos }) => {
     setCurrentFactura({
       ...currentFactura,
       subtotal: subtotal.toFixed(2),
-      iva: iva.toFixed(2),
       total: total.toFixed(2),
     });
   }, [total]);
 
   const productosFactura = currentFactura.articulos.map((element, index) => ({
-    id: element.id,
-    codigo: element.codigo,
-    descripcion: element.descripcion,
-    existencia: element.existencia,
+    iD_Producto: element.iD_Producto,
+    codigo: element.iD_Producto,
+    nombre: element.nombre,
+    existencia: element.stock,
     cantidad: (
       <div className="d-flex justify-content-center">
         <input
@@ -57,8 +60,8 @@ export const SaleDescription = ({ data, clients, productos }) => {
         />
       </div>
       ),
-    precio: element.precio,
-    precioTotal: (element.cantidad * element.precio).toFixed(2),
+    precio: element.precioTotal,
+    precioTotal: (element.cantidad * element.precioTotal).toFixed(2),
     acciones: (
       <div>
         <button
@@ -71,31 +74,37 @@ export const SaleDescription = ({ data, clients, productos }) => {
       </div>
     ),
   }));
+
   const handleAddProduct = (id) => {
-    const producto = getObjectById(productos, "codigo", id);
+    const producto = getObjectById(productos, "iD_Producto", id);
     const articulos = currentFactura?.articulos || [];
+
     articulos.push({
       ...producto,
-      existencia: producto?.existencia - 1,
+      existencia: producto?.stock - 1,
       cantidad: 1,
       precioTotal: producto?.precio,
-      existenciaFixed: producto?.existencia,
+      existenciaFixed: producto?.stock,
     });
+  
     setCurrentFactura({
       ...currentFactura,
       subtotal: subtotal.toFixed(2),
-      iva: iva.toFixed(2),
       total: total.toFixed(2),
       articulos});
+
     setTotal(calcTotal(articulos));
+    //console.log(calcTotal(articulos))
     setTotalProductos(calcTotalProductos(articulos));
     setModalProdIsOpen(false);
+
+   // console.log(productos)
   };
 
   const handleAddClient = (id) => {
-    const cliente = getObjectById(clients, "cedula", id);
+    const cliente = getObjectById(clients, "cédula", id);
     setCurrentCliente(cliente);
-    setCurrentFactura({ ...currentFactura, cedulaCliente: cliente?.cedula });
+    setCurrentFactura({ ...currentFactura, cedulaCliente: cliente?.cédula });
     setModalClientIsOpen(false);
   };
   const handleRemoveProduct = (index) => {
@@ -148,6 +157,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
       alert('Debe agregar un cliente');
       return;
     }
+    //eviar datos
     if (params?.id) {
       axios.put(`${baseURL}/bills/${params?.id}`, dataToSend, customConfig).then((response) => {
           window.location.href = "/";
@@ -201,7 +211,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
                       <input
                         type="text"
                         class="form-control plaintext"
-                        value={currentCliente?.cedula}
+                        value={currentCliente?.cédula}
                         disabled
                       />
                     </div>
@@ -223,7 +233,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
                       <input
                         type="text"
                         class="form-control plaintext"
-                        value={currentCliente?.telefono}
+                        value={currentCliente?.teléfono}
                         disabled
                       />
                     </div>
@@ -236,7 +246,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
                       <input
                         type="text"
                         class="form-control plaintext"
-                        value={currentCliente?.direccion}
+                        value={currentCliente?.dirección}
                         disabled
                       />
                     </div>
@@ -273,9 +283,9 @@ export const SaleDescription = ({ data, clients, productos }) => {
               </thead>
               <tbody>
                 <tr>
-                  <td scope="row">{currentFactura?.numeroFactura}</td>
+                  <td scope="row">{currentFactura?.iD_Orden}</td>
                   <td>{totalProductos}</td>
-                  <td>{currentFactura?.fechaFactura}</td>
+                  <td>{currentFactura?.fecha}</td>
                   <td>{subtotal.toFixed(2)}</td>
                   <td>{iva.toFixed(2)}</td>
                   <td>{total.toFixed(2)}</td>
@@ -291,7 +301,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
         title={'Agregar Producto'}
         columns={productosColumns}
         data={productos}
-        id={'iD_Orden'}
+        id={'iD_Producto'}
         currentFactura={currentFactura}
         handleAdd={handleAddProduct}
       />
@@ -301,7 +311,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
         title={'Agregar Producto'}
         columns={clientesColumns}
         data={clients}
-        id={'cedula'}
+        id={'cédula'}
         handleAdd={handleAddClient}
       />
     </>

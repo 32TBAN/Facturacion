@@ -27,11 +27,11 @@ export const clientes = [
 
 export const clientesColumns = [
     {
-        id: 'iD_Cliente',
+        id: 'id',
         label: 'Número Cliente',
     },
     {
-        id: 'cedula',
+        id: 'cédula',
         label: 'Cédula',
     },
     {
@@ -39,11 +39,11 @@ export const clientesColumns = [
         label: 'Nombre',
     },
     {
-        id: 'telefono',
+        id: 'teléfono',
         label: 'Teléfono',
     },
     {
-        id: 'direccion',
+        id: 'dirección',
         label: 'Dirección',
     },
 ];

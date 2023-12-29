@@ -20,6 +20,8 @@ export const ModalGetProduct = ({
   handleAdd,
   currentFactura,
 }) => {
+  console.log(data)
+  console.log(currentFactura)
   const [filterText, setFilterText] = React.useState("");
   const facturaProductosIds = currentFactura.articulos.map((element) => element['iD_Orden']);
   const filteredData =

@@ -17,14 +17,16 @@ export const calcTotal = (productos) => {
   };
 
 const getMaxId = (objects) => {
+  //console.log(objects)
     return objects.reduce((acc, object) => {
-      return acc > object.numeroFactura ? acc : object.numeroFactura;
+      return acc > object.iD_Orden ? acc : object.iD_Orden;
     }, 0);
   };
 
   export const generateOrder = (data) => {
     const today = new Date().toISOString().slice(0, 10);
     const currentId = getMaxId(data) + 1;
+    //console.log(currentId)
     return {
       "iD_Orden": currentId,
       "fecha": today,

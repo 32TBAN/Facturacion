@@ -26,7 +26,7 @@ function App() {
       setProductos(response.data.producto);
     });
     axios.get(`${baseURL}/ListarUsuarios`).then((response) => {
-      setClientes(response.data.cliente);
+      setClientes(response.data.usuarios);
     });
   }, []);
 
