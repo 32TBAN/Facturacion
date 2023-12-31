@@ -23,11 +23,12 @@ export const ModalGetProduct = ({
   console.log(data)
   console.log(currentFactura)
   const [filterText, setFilterText] = React.useState("");
-  const facturaProductosIds = currentFactura.articulos.map((element) => element['iD_Orden']);
+  //obtenemos ids de los productos el la factura y agregamos 
+  const facturaProductosIds = currentFactura.articulos.map((element) => element['iD_Producto']);
   const filteredData =
     data.filter((element) => {
       const dataString = Object.values(element).join(" ").toLowerCase();
-      return dataString.includes(filterText.toLowerCase()) && !facturaProductosIds.includes(element['iD_Orden']);
+      return dataString.includes(filterText.toLowerCase()) && !facturaProductosIds.includes(element['iD_Producto']);
     }) || [];
 
   const columnsCustom = [
