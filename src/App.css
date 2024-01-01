@@ -40,3 +40,14 @@
 .small-input {
   width: 60px;
 }
+
+.login,
+.image {
+  min-height: 100vh;
+}
+
+.bg-image {
+  background-image: url('./assets/loginImg.jpg');
+  background-size: cover;
+  background-position: center center;
+}
