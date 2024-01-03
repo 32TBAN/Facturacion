@@ -20,8 +20,7 @@ export const ModalGetProduct = ({
   handleAdd,
   currentFactura,
 }) => {
-  console.log(data)
-  console.log(currentFactura)
+
   const [filterText, setFilterText] = React.useState("");
   //obtenemos ids de los productos el la factura y agregamos 
   const facturaProductosIds = currentFactura.articulos.map((element) => element['iD_Producto']);

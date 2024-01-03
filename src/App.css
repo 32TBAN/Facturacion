@@ -51,3 +51,25 @@
   background-size: cover;
   background-position: center center;
 }
+
+.order-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px; 
+  padding: 10px;
+  border: 1px solid #ccc; 
+  border-radius: 5px;
+}
+
+.order-title {
+  font-size: 18px; 
+  font-weight: bold; 
+  margin-right: 10px; 
+}
+
+.order-date {
+  font-size: 16px; 
+  color: #555; 
+}

@@ -9,6 +9,7 @@ import { CustomTable } from "./CustomTable";
 import { ModalGetClient } from "./ModalGetClient";
 import { ModalGetProduct } from "./ModalGetProduct";
 import { calcTotal, calcTotalProductos, generateOrder, getObjectById } from "./utils";
+import { format } from "date-fns";
 
 export const SaleDescription = ({ data, clients, productos }) => {
   const params = useParams();//usa los parametros del query
@@ -101,12 +102,17 @@ export const SaleDescription = ({ data, clients, productos }) => {
    // console.log(productos)
   };
 
+    // * añade al cliente 
   const handleAddClient = (id) => {
     const cliente = getObjectById(clients, "cédula", id);
     setCurrentCliente(cliente);
     setCurrentFactura({ ...currentFactura, cedulaCliente: cliente?.cédula });
     setModalClientIsOpen(false);
+    currentFactura.iD_Cliente = cliente.id
+    console.log(currentCliente)
   };
+
+  // * Elimina un producto de las lista de articulos
   const handleRemoveProduct = (index) => {
     const articulos = currentFactura?.articulos || [];
     articulos.splice(index, 1);
@@ -115,6 +121,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
     setTotalProductos(calcTotalProductos(articulos));
   };
 
+  // * cambia la cantidad de los productos
   const handleCantidadChange = (value, index) => {
     let valToUpdate = value;
     if(isNaN(valToUpdate)) {
@@ -142,13 +149,31 @@ export const SaleDescription = ({ data, clients, productos }) => {
     setTotalProductos(calcTotalProductos(articulos));
   };
 
+  // * Envia los datos de facturacion
   const handleSave = () => {
     const customConfig = {
       headers: {
         'Accept': '*/*', 'Content-Type': 'application/json',
       }
     };
-    const dataToSend = JSON.stringify(currentFactura);
+
+    console.log(currentCliente.id)
+    const dataToSend = JSON.stringify({
+      iD_Orden: currentFactura.iD_Orden,
+      fecha: currentFactura.fecha,
+      iD_Cliente: currentCliente.id,
+      subtotal: currentFactura.total,
+      total: currentFactura.total
+    });
+
+    const dataToSendDetails = JSON.stringify({//todo cambiar los datos a enviar del detalle
+      iD_Orden: currentFactura.iD_Orden,
+      fecha: currentFactura.fecha,
+      iD_Cliente: currentCliente.id,
+      subtotal: currentFactura.total,
+      total: currentFactura.total
+    });
+
     if (currentFactura.articulos.length === 0) {
       alert('Debe agregar al menos un producto');
       return;
@@ -157,26 +182,26 @@ export const SaleDescription = ({ data, clients, productos }) => {
       alert('Debe agregar un cliente');
       return;
     }
-    //eviar datos
-    if (params?.id) {
-      axios.put(`${baseURL}/bills/${params?.id}`, dataToSend, customConfig).then((response) => {
-          window.location.href = "/";
+    axios.post(`${baseURL}/Guardar`, dataToSend, customConfig).then((response) => {
+    });
+
+    axios.put(`${baseURL}/Orden/GuardarDetalle`, dataToSendDetails, customConfig).then((response) => {
         });
-    } else {
-      axios.post(`${baseURL}/bills`, dataToSend, customConfig).then((response) => {
-        window.location.href = "/";
-      });
-    }
+
+
+   
   }
   
+  const formattedDate = format(new Date(currentFactura.fecha), "dd MMM yyyy");
 
   return (
     <>
       <div>
         <div class="card m-2">
           <div class="card-body d-flex flex-row justify-content-between">
-            <div className="d-flex flex-row">
-              <h4>Órden de venta</h4>
+            <div className="order-container d-flex align-items-center border rounded p-3">
+              <h4 className="order-title mb-0 me-3">Órden de venta</h4>
+              <p className="order-date mb-0">{ currentFactura?.fecha }</p>
             </div>
             <div className="d-flex flex-row">
               <button
