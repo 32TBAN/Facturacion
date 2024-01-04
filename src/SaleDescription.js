@@ -18,16 +18,12 @@ import { format } from "date-fns";
 
 export const SaleDescription = ({ data, clients, productos }) => {
   const params = useParams(); //usa los parametros del query
-  console.log(params.id)
-  console.log(data)
   const [currentFactura, setCurrentFactura] = React.useState(
     //inicia variables con un id de la factura
     params?.id
       ? getObjectById(data, "iD_Orden", params?.id)
       : generateOrder(data)
   );
-  console.log(currentFactura)
-//TODO: Ver que se envia
   const [currentCliente, setCurrentCliente] = React.useState(
     getObjectById(clients, "id", currentFactura?.iD_Cliente)
   );
@@ -36,8 +32,9 @@ export const SaleDescription = ({ data, clients, productos }) => {
   const [modalClientIsOpen, setModalClientIsOpen] = React.useState(false);
   const [modalProdIsOpen, setModalProdIsOpen] = React.useState(false);
 
-  //console.log(currentFactura)
-
+  console.log(currentFactura)
+//Todo: el error es aqui ahorra de leditar talves por qie falta articulos entonces como no tiene por que el la factura nueva no lo busca
+  console.log(currentFactura.articulos)
   const [total, setTotal] = React.useState(
     calcTotal(currentFactura?.articulos)
   );

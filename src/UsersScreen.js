@@ -13,7 +13,13 @@ export const UsersScreen = ({data}) => {
       <div class="card m-2">
         <div class="card-body d-flex flex-row justify-content-between">
           <div className="d-flex flex-row">
-            <h4>Clientes</h4>
+            <h4>Usuarios</h4>
+            <button
+              type="button"
+              class="btn btn-primary mx-3"
+            >
+              + Agregar
+            </button>
           </div>
           <form class="d-flex">
             <input

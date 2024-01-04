@@ -14,6 +14,7 @@ import { ProductsScreen } from "./ProductsScreen";
 import Login from "./login";
 import { motion } from "framer-motion";
 import { TailSpin } from "react-loader-spinner";
+import { ClientScreen } from "./ClientScreen"
 
 function App() {
   const [clientes, setClientes] = useState([]);
@@ -101,6 +102,10 @@ function App() {
             <Route
               path="/productos"
               element={<ProductsScreen data={productos} />}
+            />
+            <Route
+              path="/clientes"
+              element={<ClientScreen data={clientes} />}
             />
             <Route path="/" element={<SaleScreen data={facturas} />} />
           </Routes>
