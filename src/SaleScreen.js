@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { facturasColumns } from "./constants/facturas";
 import { CustomTable } from "./CustomTable";
 
-export const SaleScreen = ({data}) => {
-
+export const SaleScreen = ({ data }) => {
   const [filterText, setFilterText] = React.useState("");
   const navigate = useNavigate();
 
@@ -17,45 +16,54 @@ export const SaleScreen = ({data}) => {
     navigate(`/Venta`);
   };
 
-  //Todo: hacer el metodo delete
   const handleDelete = (id) => {
     const customConfig = {
       headers: {
-        'Accept': '*/*', 'Content-Type': 'application/json',
-      }
+        Accept: "*/*",
+        "Content-Type": "application/json",
+      },
     };
-    axios.delete(`localhost:5014/Orden/Eliminar/${id}`, customConfig).then((response) => {
-    });
-    window.location.href = "/";
+    axios
+      .delete(
+        `http://facturacionapirestcgjl.somee.com/Orden/Eliminar?id=${id}`,
+        customConfig
+      )
+      .then((response) => {
+        console.log("Se ha eliminado");
+        window.location.href = "/";
+      })
+      .catch(() => {
+        console.log("Error al eliminar");
+      });
   };
 
-  const filteredFacturas = data.filter((factura) => {
+  const filteredFacturas =
+    data.filter((factura) => {
       const facturaString = Object.values(factura).join(" ").toLowerCase();
       return facturaString.includes(filterText.toLowerCase());
-  }) || [];
+    }) || [];
 
   const dataCustom = filteredFacturas.map((factura) => ({
     ...factura,
     acciones: (
-        <div>
-            <button
-                type="button"
-                class="btn btn btn-warning me-2"
-                onClick={() => handleEdit(factura.iD_Orden)}
-            >
-                Editar
-            </button>
-            <button
-                type="button"
-                class="btn btn btn-danger"
-                onClick={() => handleDelete(factura.iD_Orden)}
-            >
-                Eliminar
-            </button>
-        </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn btn-warning me-2"
+          onClick={() => handleEdit(factura.iD_Orden)}
+        >
+          Editar
+        </button>
+        <button
+          type="button"
+          class="btn btn btn-danger"
+          onClick={() => handleDelete(factura.iD_Orden)}
+        >
+          Eliminar
+        </button>
+      </div>
     ),
-    }));
-
+  }));
 
   return (
     <div>
@@ -68,8 +76,8 @@ export const SaleScreen = ({data}) => {
               class="btn btn-primary mx-3"
               onClick={handleAdd}
             >
-                + Agregar
-              </button>
+              + Agregar
+            </button>
           </div>
           <form class="d-flex">
             <input

@@ -18,17 +18,21 @@ import { format } from "date-fns";
 
 export const SaleDescription = ({ data, clients, productos }) => {
   const params = useParams(); //usa los parametros del query
+  console.log(params.id)
+  console.log(data)
   const [currentFactura, setCurrentFactura] = React.useState(
     //inicia variables con un id de la factura
-    params?.iD_Orden
-      ? getObjectById(data, "iD_Orden", params?.iD_Orden)
+    params?.id
+      ? getObjectById(data, "iD_Orden", params?.id)
       : generateOrder(data)
   );
-
+  console.log(currentFactura)
+//TODO: Ver que se envia
   const [currentCliente, setCurrentCliente] = React.useState(
     getObjectById(clients, "id", currentFactura?.iD_Cliente)
   );
 
+  console.log(currentCliente)
   const [modalClientIsOpen, setModalClientIsOpen] = React.useState(false);
   const [modalProdIsOpen, setModalProdIsOpen] = React.useState(false);
 
