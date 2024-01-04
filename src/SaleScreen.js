@@ -5,6 +5,7 @@ import { facturasColumns } from "./constants/facturas";
 import { CustomTable } from "./CustomTable";
 
 export const SaleScreen = ({data}) => {
+
   const [filterText, setFilterText] = React.useState("");
   const navigate = useNavigate();
 
@@ -16,6 +17,7 @@ export const SaleScreen = ({data}) => {
     navigate(`/Venta`);
   };
 
+  //Todo: hacer el metodo delete
   const handleDelete = (id) => {
     const customConfig = {
       headers: {

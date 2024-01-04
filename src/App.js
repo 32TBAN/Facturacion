@@ -24,6 +24,13 @@ function App() {
   const [isLoading, setIsLoading] = useState(true); // Nuevo estado para controlar la animación de carga
 
   useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); // Restaurar los datos del usuario
+      setIsLoggedIn(true); // Establecer el estado de autenticación como verdadero
+    }
+    setIsLoading(false);
+
     axios.get(`${baseURL}/Listar`).then((response) => {
       setFacturas(response.data.orden);
       setIsLoading(false); // Indicar que la carga ha finalizado al obtener los datos
@@ -43,6 +50,8 @@ function App() {
         onLogin={(user) => {
           setIsLoggedIn(true);
           setUser(user); // Guardar información del usuario si es necesario
+          // Guardar información del usuario en localStorage
+        localStorage.setItem('user', JSON.stringify(user));
         }}
         clientes={clientes}
       />
@@ -53,7 +62,7 @@ function App() {
     <motion.div
       initial={{ opacity: 0 }} // Configuración de animación inicial
       animate={{ opacity: 1 }} // Configuración de animación al cargar la página
-      transition={{ duration: 4 }} // Duración de la animación
+      transition={{ duration: 1 }} // Duración de la animación
     >
       {isLoading ? (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
