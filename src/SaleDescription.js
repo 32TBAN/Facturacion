@@ -17,6 +17,13 @@ import {
 import { format } from "date-fns";
 
 export const SaleDescription = ({ data, clients, productos }) => {
+
+  if (!productos) {
+    axios.get(`${baseURL}/ListarProductos`).then((response) => {
+      productos = response.data.producto;
+    });
+  }
+
   const params = useParams(); //usa los parametros del query
   const [currentFactura, setCurrentFactura] = React.useState(
     //inicia variables con un id de la factura
@@ -24,24 +31,62 @@ export const SaleDescription = ({ data, clients, productos }) => {
       ? getObjectById(data, "iD_Orden", params?.id)
       : generateOrder(data)
   );
+  //currentFactura.articulos = []
   const [currentCliente, setCurrentCliente] = React.useState(
     getObjectById(clients, "id", currentFactura?.iD_Cliente)
   );
 
-  console.log(currentCliente)
+  // console.log(currentCliente)
   const [modalClientIsOpen, setModalClientIsOpen] = React.useState(false);
   const [modalProdIsOpen, setModalProdIsOpen] = React.useState(false);
 
-  console.log(currentFactura)
-//Todo: el error es aqui ahorra de leditar talves por qie falta articulos entonces como no tiene por que el la factura nueva no lo busca
-  console.log(currentFactura.articulos)
-  const [total, setTotal] = React.useState(
-    calcTotal(currentFactura?.articulos)
-  );
+  //console.log(params?.id);
+  const [total, setTotal] = React.useState(0);
 
-  const [totalProductos, setTotalProductos] = React.useState(
-    calcTotalProductos(currentFactura?.articulos)
-  );
+  const [totalProductos, setTotalProductos] = React.useState(0);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/ListarDetalleOrden?id=${params?.id}`);
+      let datos = []
+      for (let index = 0; index < response.data.detalle.length; index++) {
+        datos[index] = {
+          iD_Orden: response.data.detalle[index].iD_Producto,
+          codigo: response.data.detalle[index].iD_Producto,
+          descripcion: 'Samsung A20',
+          existencia: 40,
+          precio: response.data.detalle[index].precio_Total,
+        }
+      }
+      currentFactura.articulos = response.data.detalle;
+      setTotal(calcTotal(currentFactura?.articulos));
+      setTotalProductos(calcTotalProductos(response.data.detalle));
+    } catch (error) {
+      console.error("Error al obtener el array:", error);
+    }
+  };
+  
+  // Llamar a fetchData dentro de useEffect
+  useEffect(() => {
+    if (params?.id) {
+      fetchData();
+    }
+  }, [params?.id]);
+  
+  //console.log(currentFactura.articulos)
+  React.useEffect(() => {
+    setTotal(calcTotal(currentFactura?.articulos));
+  });
+
+/*     const [total, setTotal] = React.useState(
+    calcTotal(currentFactura?.articulos)
+  ); */
+
+  React.useState(() => {
+    if (currentFactura.articulos) {
+        calcTotalProductos(currentFactura?.articulos);
+    }
+  }, [currentFactura.articulos]);
 
   const subtotal = total * 0.88;
   const iva = total * 0.12;
@@ -214,12 +259,9 @@ export const SaleDescription = ({ data, clients, productos }) => {
     console.log(detailsToSend);
     // Enviar todos los detalles a la vez usando Promise.all()
     axios
-      .post(
-        `${baseURL}/GuardarDetalle`,
-        detailsToSend,
-        customConfig
-      ).then((response) => {
-        window.location.href = "/"
+      .post(`${baseURL}/GuardarDetalle`, detailsToSend, customConfig)
+      .then((response) => {
+        window.location.href = "/";
       })
       .catch(() => {
         console.log(`Error al agregar los productos`);
