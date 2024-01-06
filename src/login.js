@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-const Login = ({ onLogin, clientes }) => {
+const Login = ({ onLogin, users }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -9,10 +9,11 @@ const Login = ({ onLogin, clientes }) => {
   const handleLogin = () => {
     try {
       let usuarioEncontrado = null;
-      for (const usuario of clientes) {
+      console.log(users)
+      for (const usuario of users) {
         if (
-          usuario.cédula.toLowerCase() === username.toLowerCase() &&
-          usuario.password === password
+          usuario.cédula.toLowerCase() === username.toLowerCase()  &&
+          usuario.password === password 
         ) {
           usuarioEncontrado = usuario;
           break;

@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { facturasColumns } from "./constants/facturas";
 import { CustomTable } from "./CustomTable";
 
-export const SaleScreen = ({ data }) => {
+export const SaleScreen = ({ data, dataUser }) => {
+  const isAdmin = dataUser.cargo === "admin";
   const [filterText, setFilterText] = React.useState("");
   const navigate = useNavigate();
 
@@ -47,20 +48,30 @@ export const SaleScreen = ({ data }) => {
     ...factura,
     acciones: (
       <div>
+        {isAdmin && (
+          <button
+            type="button"
+            class="btn btn btn-warning me-2"
+            onClick={() => handleEdit(factura.iD_Orden)}
+          >
+            Editar
+          </button>
+        )}
+        {isAdmin && (
+          <button
+            type="button"
+            class="btn btn btn-danger"
+            onClick={() => handleDelete(factura.iD_Orden)}
+          >
+            Eliminar
+          </button>
+        )}
         <button
           type="button"
-          class="btn btn btn-warning me-2"
-          onClick={() => handleEdit(factura.iD_Orden)}
+          className="btn btn-success me-3 rounded-pill shadow-sm"
         >
-          Editar
-        </button>
-        <button
-          type="button"
-          class="btn btn btn-danger"
-          onClick={() => handleDelete(factura.iD_Orden)}
-        >
-          Eliminar
-        </button>
+          Ver
+        </button> 
       </div>
     ),
   }));

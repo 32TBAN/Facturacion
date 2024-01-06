@@ -2,7 +2,8 @@ import React from 'react'
 import { clientesColumns } from './constants/clientes';
 import { CustomTable } from './CustomTable';
 
-export const ClientScreen = ({data}) => {
+export const ClientScreen = ({data,dataUser}) => {
+  const isAdmin = dataUser.cargo === "admin";
   const [filterText, setFilterText] = React.useState("");
   const filteredData = data.filter((element) => {
     const facturaString = Object.values(element).join(" ").toLowerCase();
@@ -14,12 +15,14 @@ export const ClientScreen = ({data}) => {
         <div class="card-body d-flex flex-row justify-content-between">
           <div className="d-flex flex-row">
             <h4>Clientes</h4>
-            <button
-              type="button"
-              class="btn btn-primary mx-3"
-            >
-              + Agregar
-            </button>
+            {isAdmin && ( // Mostrar el botón solo si el usuario es admin
+              <button
+                type="button"
+                className="btn btn-primary mx-3"
+              >
+                + Agregar
+              </button>
+            )}
           </div>
           <form class="d-flex">
             <input

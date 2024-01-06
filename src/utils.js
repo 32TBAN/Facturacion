@@ -23,15 +23,22 @@ const getMaxId = (objects) => {
     }, 0);
   };
 
-  export const generateOrder = (data) => {
-    const today = new Date().toISOString().slice(0, 10);
+  export const generateOrder = (data,dataUser) => {
+    const today = new Date();
+    const formattedDate = today.toISOString().slice(0, 10);
+    const formattedTime = today.toLocaleTimeString(undefined, {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+    const dateTime = `${formattedDate} ${formattedTime}`;
     const currentId = getMaxId(data) + 1;
     //console.log(currentId)
     return {
       "iD_Orden": currentId,
-      "fecha": today,
+      "fecha": dateTime,
       "iD_Cliente": "",
-      "vendedor": "ADMIN",
+      "vendedor": dataUser.id,
       "estado": "Pagado",
       "subtotal": 0,
       "iva": 0,

@@ -16,22 +16,16 @@ import {
 } from "./utils";
 import { format } from "date-fns";
 
-export const SaleDescription = ({ data, clients, productos }) => {
-
-  if (!productos) {
-    axios.get(`${baseURL}/ListarProductos`).then((response) => {
-      productos = response.data.producto;
-    });
-  }
-
+export const SaleDescription = ({ data, clients, productos, dataUser }) => {
   const params = useParams(); //usa los parametros del query
+
   const [currentFactura, setCurrentFactura] = React.useState(
     //inicia variables con un id de la factura
     params?.id
       ? getObjectById(data, "iD_Orden", params?.id)
-      : generateOrder(data)
+      : generateOrder(data,dataUser)//TODO: pongo los datos de luser que cobra pero en la base de datos falta el campo asi que puedo quitar
   );
-  //currentFactura.articulos = []
+
   const [currentCliente, setCurrentCliente] = React.useState(
     getObjectById(clients, "id", currentFactura?.iD_Cliente)
   );
@@ -41,56 +35,30 @@ export const SaleDescription = ({ data, clients, productos }) => {
   const [modalProdIsOpen, setModalProdIsOpen] = React.useState(false);
 
   //console.log(params?.id);
-  const [total, setTotal] = React.useState(0);
+  const [total, setTotal] = React.useState(
+    calcTotal(currentFactura?.articulos)
+  );
 
-  const [totalProductos, setTotalProductos] = React.useState(0);
+  const [totalProductos, setTotalProductos] = React.useState(
+    calcTotalProductos(currentFactura.articulos)
+  );
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${baseURL}/ListarDetalleOrden?id=${params?.id}`);
-      let datos = []
-      for (let index = 0; index < response.data.detalle.length; index++) {
-        datos[index] = {
-          iD_Orden: response.data.detalle[index].iD_Producto,
-          codigo: response.data.detalle[index].iD_Producto,
-          descripcion: 'Samsung A20',
-          existencia: 40,
-          precio: response.data.detalle[index].precio_Total,
-        }
-      }
-      currentFactura.articulos = response.data.detalle;
-      setTotal(calcTotal(currentFactura?.articulos));
-      setTotalProductos(calcTotalProductos(response.data.detalle));
-    } catch (error) {
-      console.error("Error al obtener el array:", error);
-    }
-  };
-  
-  // Llamar a fetchData dentro de useEffect
-  useEffect(() => {
-    if (params?.id) {
-      fetchData();
-    }
-  }, [params?.id]);
-  
   //console.log(currentFactura.articulos)
   React.useEffect(() => {
     setTotal(calcTotal(currentFactura?.articulos));
   });
 
-/*     const [total, setTotal] = React.useState(
+  /*     const [total, setTotal] = React.useState(
     calcTotal(currentFactura?.articulos)
   ); */
 
   React.useState(() => {
     if (currentFactura.articulos) {
-        calcTotalProductos(currentFactura?.articulos);
+      calcTotalProductos(currentFactura?.articulos);
     }
   }, [currentFactura.articulos]);
-
   const subtotal = total * 0.88;
   const iva = total * 0.12;
-
   useEffect(() => {
     setCurrentFactura({
       ...currentFactura,
@@ -99,11 +67,12 @@ export const SaleDescription = ({ data, clients, productos }) => {
     });
   }, [total]);
 
+  console.log(currentFactura.articulos);
   const productosFactura = currentFactura.articulos.map((element, index) => ({
     iD_Producto: element.iD_Producto,
     codigo: element.iD_Producto,
-    nombre: element.nombre,
-    existencia: element.stock,
+    nombre: element.descripcion,
+    existencia: element.existencia,
     cantidad: (
       <div className="d-flex justify-content-center">
         <input
@@ -117,8 +86,8 @@ export const SaleDescription = ({ data, clients, productos }) => {
         />
       </div>
     ),
-    precio: element.precioTotal,
-    precioTotal: (0.88 * element.precioTotal).toFixed(2),
+    precio: element.precio,
+    precioTotal: (0.88 * (element.precio * element.cantidad)).toFixed(2),
     acciones: (
       <div>
         <button
@@ -142,6 +111,7 @@ export const SaleDescription = ({ data, clients, productos }) => {
       cantidad: 1,
       precioTotal: producto?.precio,
       existenciaFixed: producto?.stock,
+      descripcion: producto?.nombre,
     });
 
     setCurrentFactura({
@@ -269,6 +239,16 @@ export const SaleDescription = ({ data, clients, productos }) => {
   };
 
   const formattedDate = format(new Date(currentFactura.fecha), "dd MMM yyyy");
+  const formattedTime = new Date(currentFactura.fecha).toLocaleTimeString(
+    undefined,
+    {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    }
+  );
+
+  const formattedDateTime = `${formattedDate} ${formattedTime}`;
 
   return (
     <>
