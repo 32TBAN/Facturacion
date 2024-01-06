@@ -41,3 +41,21 @@ export const productosColumns = [
     },
 ];
 
+export const productosColumns2 = [
+    {
+        id: 'iD_Producto',
+        label: 'Código',
+    },
+    {
+        id: 'descripcion',
+        label: 'Descripción',
+    },
+    {
+        id: 'existencia',
+        label: 'Existencias',
+    },
+    {
+        id: 'precio',
+        label: 'Precio',
+    },
+];

@@ -23,7 +23,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
     //inicia variables con un id de la factura
     params?.id
       ? getObjectById(data, "iD_Orden", params?.id)
-      : generateOrder(data,dataUser)//TODO: pongo los datos de luser que cobra pero en la base de datos falta el campo asi que puedo quitar
+      : generateOrder(data,dataUser)//TODO: ahorra ya tengo un la factura asi que pobner
   );
 
   const [currentCliente, setCurrentCliente] = React.useState(
@@ -198,6 +198,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       iD_Orden: currentFactura.iD_Orden,
       fecha: currentFactura.fecha,
       iD_Cliente: currentCliente.id,
+      iD_Usuario: dataUser.id,
       subtotal: subtotal,
       total: total,
     });
@@ -208,8 +209,8 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       .then((response) => {
         console.log(`Se ha guardado la orden ${currentFactura.iD_Orden}`);
       })
-      .catch(() => {
-        console.log(`Error al guardar la orden`);
+      .catch((error) => {
+        console.log(`Error al guardar la orden: ${error}`);
       });
 
     // Crear un array para almacenar todos los detalles a enviar

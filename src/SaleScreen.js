@@ -3,11 +3,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { facturasColumns } from "./constants/facturas";
 import { CustomTable } from "./CustomTable";
+import { ModalGetFactura } from "./ModalGetFactura";
+import { productosColumns2 } from "./constants/productos";
 
-export const SaleScreen = ({ data, dataUser }) => {
-  const isAdmin = dataUser.cargo === "admin";
+export const SaleScreen = ({ data, dataUser, clients }) => {
+  const isAdmin = dataUser.cargo === "Admin";
   const [filterText, setFilterText] = React.useState("");
   const navigate = useNavigate();
+  const [modalFacIsOpen, setModalFacIsOpen] = React.useState(false);
+  const [productos, setProductos] = React.useState([]);
+  const [client, setClient] = React.useState({});
+  const [orden, setOrden] = React.useState({});
 
   const handleEdit = (id) => {
     navigate(`/Venta/${id}`);
@@ -36,6 +42,23 @@ export const SaleScreen = ({ data, dataUser }) => {
       .catch(() => {
         console.log("Error al eliminar");
       });
+  };
+  
+  const handleShow = (id) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].iD_Orden == id) {
+        setOrden(data[i])
+        setProductos(data[i].articulos);
+        for (let j = 0; j < clients.length; j++) {
+          if (data[i].iD_Cliente == clients[j].id) {
+            setClient(clients[j])
+            setModalFacIsOpen(true);
+            break
+          }
+        }
+        break
+      }
+    }
   };
 
   const filteredFacturas =
@@ -68,10 +91,11 @@ export const SaleScreen = ({ data, dataUser }) => {
         )}
         <button
           type="button"
-          className="btn btn-success me-3 rounded-pill shadow-sm"
+          className="btn btn-success m-2 shadow-sm"
+          onClick={() => handleShow(factura.iD_Orden)}
         >
           Ver
-        </button> 
+        </button>
       </div>
     ),
   }));
@@ -105,6 +129,15 @@ export const SaleScreen = ({ data, dataUser }) => {
       <div className="card m-2 p-3">
         <CustomTable colums={facturasColumns} data={dataCustom} />
       </div>
+      <ModalGetFactura
+        modalIsOpen={modalFacIsOpen}
+        setIsOpen={setModalFacIsOpen}
+        columns={productosColumns2}
+        data={productos}
+        id={"iD_Producto"}
+        order={orden}
+        client={client}
+      />
     </div>
   );
 };

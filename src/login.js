@@ -12,7 +12,7 @@ const Login = ({ onLogin, users }) => {
       console.log(users)
       for (const usuario of users) {
         if (
-          usuario.cédula.toLowerCase() === username.toLowerCase()  &&
+          usuario.email.toLowerCase() === username.toLowerCase()  &&
           usuario.password === password 
         ) {
           usuarioEncontrado = usuario;

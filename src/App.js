@@ -15,6 +15,7 @@ import { ClientScreen } from "./ClientScreen";
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [clients, setClients] = useState([]);
   const [facturas, setFacturas] = useState([]);
   const [productos, setProductos] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,6 +39,9 @@ function App() {
     });
     axios.get(`${baseURL}/ListarUsuarios`).then((response) => {
       setUsers(response.data.usuarios);
+    });
+    axios.get(`${baseURL}/ListarClientes`).then((response) => {
+      setClients(response.data.clientes);
     });
   }, []);
 
@@ -104,7 +108,7 @@ function App() {
               element={
                 <SaleDescription
                   data={facturas}
-                  clients={users}
+                  clients={clients}
                   productos={productos}
                   dataUser={user}
                 />
@@ -115,7 +119,7 @@ function App() {
               element={
                 <SaleDescription
                   data={facturas}
-                  clients={users}
+                  clients={clients}
                   productos={productos}
                   dataUser={user}
                 />
@@ -131,11 +135,11 @@ function App() {
             />
             <Route
               path="/clientes"
-              element={<ClientScreen data={users} dataUser={user} />}
+              element={<ClientScreen data={clients} dataUser={user} />}
             />
             <Route
               path="/"
-              element={<SaleScreen data={facturas} dataUser={user} />}//TODO: agregar los permisos
+              element={<SaleScreen data={facturas} dataUser={user} clients={clients}/>}
             />
           </Routes>
         </div>
