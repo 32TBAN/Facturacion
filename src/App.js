@@ -44,7 +44,7 @@ function App() {
       setClients(response.data.clientes);
     });
   }, []);
-
+// * lleno el array de articulos con los detalles que estan en otra tabla en la base de datos.
   useEffect(() => {
     for (let i = 0; i < facturas.length; i++) {
       let detalle = async () => {
@@ -58,10 +58,13 @@ function App() {
               detalle.descripcion = productos[i].nombre;
               detalle.existencia = productos[i].stock;
               detalle.existenciaFixed = productos[i].stock;
+              detalle.subtotal = (detalle.cantidad * detalle.precio_Total).toFixed(2)
+              detalle.total = ((detalle.cantidad * detalle.precio_Total) * 0.88).toFixed(2)
             }
           }
           return detalle;
         });
+        facturas[i].total =  parseFloat(facturas[i].total).toFixed(2)
       };
       detalle();
     }

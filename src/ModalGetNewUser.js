@@ -17,10 +17,20 @@ export const AddUserModal = ({ isOpen, closeModal, addUser }) => {
   const [email, setEmail] = useState("");
   const [cargo, setCargo] = useState("");
   const [password, setPassword] = useState("");
-
+  const validatePassword = (password) => {
+    // Expresión regular para validar la contraseña
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d\s:])([^\s]){4,10}$/;
+    return passwordRegex.test(password);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí podrías llamar a una función para agregar el nuevo usuario
+    // Validar la contraseña antes de agregar el usuario
+    if (!validatePassword(password)) {
+      alert(
+        "La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número, un carácter especial y tener entre 4 y 10 caracteres."
+      );
+      return;
+    }
     addUser({ email, password, cargo });
     // Limpia los campos después de agregar el usuario
     setEmail("");

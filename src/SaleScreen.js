@@ -14,7 +14,7 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
   const [productos, setProductos] = React.useState([]);
   const [client, setClient] = React.useState({});
   const [orden, setOrden] = React.useState({});
-
+  //console.log(data)
   const handleEdit = (id) => {
     navigate(`/Venta/${id}`);
   };
@@ -32,7 +32,7 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
     };
     axios
       .delete(
-        `http://facturacionapirestcgjl.somee.com/Orden/Eliminar?id=${id}`,
+        `http://facturacionapirestcgjl.somee.com/Orden/Eliminar?id=${id}`,//TODO ver is funca
         customConfig
       )
       .then((response) => {
@@ -43,20 +43,20 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
         console.log("Error al eliminar");
       });
   };
-  
+
   const handleShow = (id) => {
     for (let i = 0; i < data.length; i++) {
       if (data[i].iD_Orden == id) {
-        setOrden(data[i])
+        setOrden(data[i]);
         setProductos(data[i].articulos);
         for (let j = 0; j < clients.length; j++) {
           if (data[i].iD_Cliente == clients[j].id) {
-            setClient(clients[j])
+            setClient(clients[j]);
             setModalFacIsOpen(true);
-            break
+            break;
           }
         }
-        break
+        break;
       }
     }
   };
@@ -127,7 +127,9 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
         </div>
       </div>
       <div className="card m-2 p-3">
+
         <CustomTable colums={facturasColumns} data={dataCustom} />
+
       </div>
       <ModalGetFactura
         modalIsOpen={modalFacIsOpen}

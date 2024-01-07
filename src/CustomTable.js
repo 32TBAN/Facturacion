@@ -11,7 +11,7 @@ const divideData = (data, pageNumber) => {
     return dividedData;
 };
 
-export const CustomTable = ({ colums = [], data = [], pageNumber=6}) => {
+export const CustomTable = ({ colums = [], data = [], pageNumber=8}) => {
   const [activePage, setActivePage] = React.useState(0);
   const divideDataValue = divideData(data, pageNumber) || [];
 
@@ -69,6 +69,6 @@ export const CustomTable = ({ colums = [], data = [], pageNumber=6}) => {
             </ul>
         </nav> : <div>No existen datos disponibles</div>}
       </div>
-    </div>
+    </div> 
   );
 };

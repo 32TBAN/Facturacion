@@ -51,11 +51,17 @@ export const productosColumns2 = [
         label: 'Descripción',
     },
     {
-        id: 'existencia',
-        label: 'Existencias',
+        id: 'cantidad',
+        label: 'Cantidad',
     },
     {
         id: 'precio',
         label: 'Precio',
+    },{
+        id: 'subtotal',
+        label: 'Subtotal',
+    },{
+        id: 'total',
+        label: 'Total - 12 % Descuento',
     },
 ];

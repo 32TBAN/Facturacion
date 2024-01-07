@@ -28,12 +28,13 @@ export const ModalGetFactura = ({
 
   const calculateTotal = () => {
     let subtotal = 0;
+    let subtotalV = 0;
     data.forEach((detail) => {
-      subtotal += detail.cantidad * detail.precio;
+      subtotal += detail.cantidad * detail.precio * 0.88;
+      subtotalV += detail.cantidad * detail.precio * 0.12;
     });
 
-    // Considerando un impuesto del 12% y un descuento del 20%
-    const total = subtotal * 0.12 * 0.8 + subtotal;
+    const total = subtotalV + subtotal;
     return {
       subtotal: subtotal.toFixed(2),
       total: total.toFixed(2),

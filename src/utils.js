@@ -26,17 +26,19 @@ const getMaxId = (objects) => {
   export const generateOrder = (data,dataUser) => {
     const today = new Date();
     const formattedDate = today.toISOString().slice(0, 10);
-    const dateTime = `${formattedDate}`;
+    const formattedTime = today.toLocaleTimeString(undefined, {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+    const dateTime = `${formattedDate} ${formattedTime}`;
     const currentId = getMaxId(data) + 1;
-    //console.log(currentId)
     return {
       "iD_Orden": currentId,
       "fecha": dateTime,
       "iD_Cliente": "",
-      "vendedor": dataUser.id,
-      "estado": "Pagado",
+      "iD_Usuario": dataUser.id,
       "subtotal": 0,
-      "iva": 0,
       "total": 0,
       "articulos": [
       ]

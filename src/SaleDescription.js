@@ -14,7 +14,6 @@ import {
   generateOrder,
   getObjectById,
 } from "./utils";
-import { format } from "date-fns";
 
 export const SaleDescription = ({ data, clients, productos, dataUser }) => {
   const params = useParams(); //usa los parametros del query
@@ -23,7 +22,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
     //inicia variables con un id de la factura
     params?.id
       ? getObjectById(data, "iD_Orden", params?.id)
-      : generateOrder(data,dataUser)//TODO: ahorra ya tengo un la factura asi que pobner
+      : generateOrder(data,dataUser)
   );
 
   const [currentCliente, setCurrentCliente] = React.useState(
@@ -67,7 +66,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
     });
   }, [total]);
 
-  console.log(currentFactura.articulos);
+  //console.log(currentFactura.articulos);
   const productosFactura = currentFactura.articulos.map((element, index) => ({
     iD_Producto: element.iD_Producto,
     codigo: element.iD_Producto,
@@ -87,7 +86,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       </div>
     ),
     precio: element.precio,
-    precioTotal: (0.88 * (element.precio * element.cantidad)).toFixed(2),
+    precioTotal: (element.precio * element.cantidad).toFixed(1),
     acciones: (
       <div>
         <button
@@ -193,12 +192,12 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       alert("Debe agregar un cliente");
       return;
     }
-
+    console.log(dataUser)
     const dataToSend = JSON.stringify({
       iD_Orden: currentFactura.iD_Orden,
       fecha: currentFactura.fecha,
       iD_Cliente: currentCliente.id,
-      iD_Usuario: dataUser.id,
+      iD_Usuario: dataUser.iD_Usuario,
       subtotal: subtotal,
       total: total,
     });
@@ -227,7 +226,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       detailsToSend.push(detail);
     }
 
-    console.log(detailsToSend);
+    //console.log(detailsToSend);
     // Enviar todos los detalles a la vez usando Promise.all()
     axios
       .post(`${baseURL}/GuardarDetalle`, detailsToSend, customConfig)
@@ -239,7 +238,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       });
   };
 
-  const formattedDate = format(new Date(currentFactura.fecha), "dd MMM yyyy");
+/*   const formattedDate = format(new Date(currentFactura.fecha), "dd MMM yyyy");
   const formattedTime = new Date(currentFactura.fecha).toLocaleTimeString(
     undefined,
     {
@@ -249,7 +248,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
     }
   );
 
-  const formattedDateTime = `${formattedDate} ${formattedTime}`;
+  const formattedDateTime = `${formattedDate} ${formattedTime}`; */
 
   return (
     <>
@@ -357,7 +356,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
                   <th scope="col">Código de la Factura</th>
                   <th scope="col">Articulos totales</th>
                   <th scope="col">Fecha</th>
-                  <th scope="col">SubTotal</th>
+                  <th scope="col">SubTotal  - 12% Descuento</th>
                   <th scope="col">IVA</th>
                   <th scope="col">Total</th>
                 </tr>
