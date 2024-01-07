@@ -44,13 +44,15 @@ function App() {
       setClients(response.data.clientes);
     });
   }, []);
-// * lleno el array de articulos con los detalles que estan en otra tabla en la base de datos.
+  // * lleno el array de articulos con los detalles que estan en otra tabla en la base de datos.
+  //console.log(facturas)
   useEffect(() => {
     for (let i = 0; i < facturas.length; i++) {
-      let detalle = async () => {
+      let detalle = async (i) => {
         const response = await axios.get(
           `${baseURL}/ListarDetalleOrden?id=${facturas[i]?.iD_Orden}`
         );
+
         facturas[i].articulos = response.data.detalle.map((detalle) => {
           detalle.precio = detalle.precio_Total;
           for (let i = 0; i < productos.length; i++) {
@@ -58,15 +60,21 @@ function App() {
               detalle.descripcion = productos[i].nombre;
               detalle.existencia = productos[i].stock;
               detalle.existenciaFixed = productos[i].stock;
-              detalle.subtotal = (detalle.cantidad * detalle.precio_Total).toFixed(2)
-              detalle.total = ((detalle.cantidad * detalle.precio_Total) * 0.88).toFixed(2)
+              detalle.subtotal = (
+                detalle.cantidad * detalle.precio_Total
+              ).toFixed(2);
+              detalle.total = (
+                detalle.cantidad *
+                detalle.precio_Total *
+                0.88
+              ).toFixed(2);
             }
           }
           return detalle;
         });
-        facturas[i].total =  parseFloat(facturas[i].total).toFixed(2)
       };
-      detalle();
+      detalle(i);
+      //console.log(facturas);
     }
   });
   //console.log(facturas)
@@ -74,7 +82,7 @@ function App() {
   if (!isLoggedIn) {
     return (
       <Login
-        onLogin={(user) => {//Todo 
+        onLogin={(user) => {
           setIsLoggedIn(true);
           setUser(user); // Guardar información del usuario si es necesario
           // Guardar información del usuario en localStorage
@@ -130,7 +138,7 @@ function App() {
             />
             <Route
               path="/usuarios"
-              element={<UsersScreen data={users} dataUser={user} />} 
+              element={<UsersScreen data={users} dataUser={user} />}
             />
             <Route
               path="/productos"
@@ -142,7 +150,9 @@ function App() {
             />
             <Route
               path="/"
-              element={<SaleScreen data={facturas} dataUser={user} clients={clients}/>}
+              element={
+                <SaleScreen data={facturas} dataUser={user} clients={clients} />
+              }
             />
           </Routes>
         </div>

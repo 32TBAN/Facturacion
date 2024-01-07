@@ -14,7 +14,8 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
   const [productos, setProductos] = React.useState([]);
   const [client, setClient] = React.useState({});
   const [orden, setOrden] = React.useState({});
-  //console.log(data)
+  //console.log(data);
+
   const handleEdit = (id) => {
     navigate(`/Venta/${id}`);
   };
@@ -32,7 +33,7 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
     };
     axios
       .delete(
-        `http://facturacionapirestcgjl.somee.com/Orden/Eliminar?id=${id}`,//TODO ver is funca
+        `http://facturacionapirestcgjl.somee.com/Orden/EliminarOrdenVenta?id=${id}`,
         customConfig
       )
       .then((response) => {
@@ -71,7 +72,7 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
     ...factura,
     acciones: (
       <div>
-        {isAdmin && (
+{/*         {isAdmin && (
           <button
             type="button"
             class="btn btn btn-warning me-2"
@@ -79,7 +80,7 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
           >
             Editar
           </button>
-        )}
+        )} */}
         {isAdmin && (
           <button
             type="button"
@@ -127,9 +128,7 @@ export const SaleScreen = ({ data, dataUser, clients }) => {
         </div>
       </div>
       <div className="card m-2 p-3">
-
         <CustomTable colums={facturasColumns} data={dataCustom} />
-
       </div>
       <ModalGetFactura
         modalIsOpen={modalFacIsOpen}

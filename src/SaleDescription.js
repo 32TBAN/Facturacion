@@ -56,13 +56,16 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       calcTotalProductos(currentFactura?.articulos);
     }
   }, [currentFactura.articulos]);
+
   const subtotal = total * 0.88;
   const iva = total * 0.12;
+  const totalBasic = total
+
   useEffect(() => {
     setCurrentFactura({
       ...currentFactura,
       subtotal: subtotal.toFixed(2),
-      total: total.toFixed(2),
+      total: totalBasic.toFixed(2),
     });
   }, [total]);
 
@@ -188,7 +191,8 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       alert("Debe agregar al menos un producto");
       return;
     }
-    if (!currentFactura.cedulaCliente) {
+
+    if (!currentFactura.cedulaCliente && !params?.id) {
       alert("Debe agregar un cliente");
       return;
     }
@@ -198,11 +202,27 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       fecha: currentFactura.fecha,
       iD_Cliente: currentCliente.id,
       iD_Usuario: dataUser.iD_Usuario,
-      subtotal: subtotal,
-      total: total,
+      subtotal: totalBasic,
+      total: totalBasic,
     });
 
-    console.log(dataToSend);
+    //console.log(dataToSend);
+    const eliminar = async () => {
+    if (params?.id) {
+      await axios
+        .delete(
+          `http://facturacionapirestcgjl.somee.com/Orden/EliminarOrdenVenta?id=${params?.id}`,
+          customConfig
+        )
+        .then((response) => {
+          console.log("Se ha eliminado");
+        })
+        .catch(() => {
+          console.log("Error al eliminar");
+        });
+    }
+  }
+  eliminar()
     axios
       .post(`${baseURL}/Guardar`, dataToSend, customConfig)
       .then((response) => {
@@ -231,10 +251,12 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
     axios
       .post(`${baseURL}/GuardarDetalle`, detailsToSend, customConfig)
       .then((response) => {
-        window.location.href = "/";
+        console.log(response)
+        console.log(`Se ha guardado los detalles`)
+        //window.location.href = "/";
       })
-      .catch(() => {
-        console.log(`Error al agregar los productos`);
+      .catch((error) => {
+        console.log(`Error al agregar los productos ${error}`);
       });
   };
 
