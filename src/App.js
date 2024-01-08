@@ -54,18 +54,18 @@ function App() {
         );
 
         facturas[i].articulos = response.data.detalle.map((detalle) => {
-          detalle.precio = detalle.precio_Total;
           for (let i = 0; i < productos.length; i++) {
             if (detalle.iD_Producto == productos[i].iD_Producto) {
+              detalle.precio = productos[i].precio;
               detalle.descripcion = productos[i].nombre;
               detalle.existencia = productos[i].stock;
               detalle.existenciaFixed = productos[i].stock;
               detalle.subtotal = (
-                detalle.cantidad * detalle.precio_Total
+                detalle.cantidad * detalle.precio
               ).toFixed(2);
               detalle.total = (
                 detalle.cantidad *
-                detalle.precio_Total *
+                detalle.precio *
                 0.88
               ).toFixed(2);
             }

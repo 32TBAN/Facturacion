@@ -60,7 +60,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
   const subtotal = total * 0.88;
   const iva = total * 0.12;
   const totalBasic = total
-
+  //console.log(totalBasic)
   useEffect(() => {
     setCurrentFactura({
       ...currentFactura,
@@ -196,7 +196,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
       alert("Debe agregar un cliente");
       return;
     }
-    console.log(dataUser)
+    //console.log(dataUser)
     const dataToSend = JSON.stringify({
       iD_Orden: currentFactura.iD_Orden,
       fecha: currentFactura.fecha,
@@ -207,7 +207,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
     });
 
     //console.log(dataToSend);
-    const eliminar = async () => {
+/*     const eliminar = async () => {
     if (params?.id) {
       await axios
         .delete(
@@ -222,7 +222,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
         });
     }
   }
-  eliminar()
+  eliminar() */
     axios
       .post(`${baseURL}/Guardar`, dataToSend, customConfig)
       .then((response) => {
@@ -241,19 +241,18 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
         iD_Orden: currentFactura.iD_Orden,
         iD_Producto: currentFactura.articulos[index].iD_Producto,
         cantidad: currentFactura.articulos[index].cantidad,
-        precio_Total: currentFactura.articulos[index].precioTotal,
       };
       detailsToSend.push(detail);
     }
 
-    //console.log(detailsToSend);
+    console.log(detailsToSend);
     // Enviar todos los detalles a la vez usando Promise.all()
     axios
       .post(`${baseURL}/GuardarDetalle`, detailsToSend, customConfig)
       .then((response) => {
         console.log(response)
         console.log(`Se ha guardado los detalles`)
-        //window.location.href = "/";
+        window.location.href = "/";
       })
       .catch((error) => {
         console.log(`Error al agregar los productos ${error}`);
