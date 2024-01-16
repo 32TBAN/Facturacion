@@ -223,6 +223,7 @@ export const SaleDescription = ({ data, clients, productos, dataUser }) => {
     }
   }
   eliminar() */
+  console.log(dataToSend)
     axios
       .post(`${baseURL}/Guardar`, dataToSend, customConfig)
       .then((response) => {
