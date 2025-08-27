@@ -5,8 +5,6 @@ export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/"
             element={<App />} >
-            <Route index element={<div>Home</div>} />
-            <Route path="about" element={<div>About</div>} />
         </Route>
     ),
     { basename: 'facturacion' }
