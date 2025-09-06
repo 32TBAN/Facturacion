@@ -3,16 +3,16 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
-  base: "facturacion",
+  base: "/",
   plugins: [react()],
   resolve: {
     alias: {
       "#components": path.resolve(__dirname, "src/components"),
       "#hooks": path.resolve(__dirname, "src/hooks"),
       "#utils": path.resolve(__dirname, "src/utils"),
-      "#contracts": path.resolve(__dirname, "src/contracts"),
+      "#constants": path.resolve(__dirname, "src/constants"),
       "#assets": path.resolve(__dirname, "src/assets"),
-      "#layaouts": path.resolve(__dirname,"src/layouts")
+      "#layouts": path.resolve(__dirname,"src/layouts")
     },
   },
 })

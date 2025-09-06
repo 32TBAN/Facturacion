@@ -10,7 +10,7 @@
       "#components/*": ["src/components/*"],
       "#hooks/*": ["src/hooks/*"],
       "#utils/*": ["src/utils/*"],
-      "#constracts/*": ["src/constracsts/*"],
+      "#constants/*": ["src/constants/*"],
       "#assets/*": ["src/assets/*"],
       "#layouts/*": ["src/layouts/*"]
     }
