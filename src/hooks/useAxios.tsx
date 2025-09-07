@@ -51,4 +51,6 @@ export default function useAxios<T = any>(url: string) {
   return { data, error, isLoading };
 }
 export const useUsers = () => useAxios(`${baseUrl}/users`)
+export const useCustomers = () => useAxios(`${baseUrl}/customers`)
+
 

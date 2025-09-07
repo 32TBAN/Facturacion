@@ -1,4 +1,4 @@
-export const clientes = [
+export const mockClientes = [
     {
         id: 1,
         numeroCliente: 1,

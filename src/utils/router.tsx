@@ -3,22 +3,19 @@ import App from "../App";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "#layouts/login.tsx";
 import { UsersScreen } from "../pages/Users/UsersScreen";
+import { SaleScreen } from "../pages/Sales/SaleScreen";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        element: <ProtectedRoute />,
-        children: [
-        //   { path: "/", element: <SaleScreen /> },
-          { path: "/usuarios", element: <UsersScreen /> },
-        //   { path: "/productos", element: <ProductsScreen /> },
-        //   { path: "/clientes", element: <ClientScreen /> },
-        ],
-      },
-      { path: "/login", element: <Login /> },
+      { path: "login", element: <Login /> },
+      { path: "usuarios", element: <UsersScreen /> },
+      { path: "/", element: <SaleScreen /> },
+      //   { path: "/productos", element: <ProductsScreen /> },
+      //   { path: "/clientes", element: <ClientScreen /> },
+
     ],
   },
 ]);

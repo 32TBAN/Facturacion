@@ -1,1 +1,0 @@
-export const baseURL = "https://facturacionapirestcgjl.somee.com/Orden";

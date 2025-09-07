@@ -1,4 +1,4 @@
-export const facturas = [
+export const mockFacturas = [
     {
         id: 1,
         numeroFactura: 1,
@@ -26,7 +26,7 @@ export const facturas = [
 
 export const facturasColumns = [
     {
-        id: 'iD_Orden',
+        id: 'id',
         label: 'Numero de Factura',
     },
     {
@@ -34,7 +34,7 @@ export const facturasColumns = [
         label: 'Fecha',
     },
     {
-        id: 'iD_Cliente',
+        id: 'cliente',
         label: 'Cliente',
     },
     {
@@ -77,4 +77,3 @@ export const productosFacturaColumns = [
         label: 'Acciones',
     }
 ];
-

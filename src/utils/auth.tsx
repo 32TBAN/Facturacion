@@ -1,9 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { mockUsers } from "#constants/users"
 
 interface User {
-  id: string;
-  username: string;
-  role?: string;
+  iD_Usuario: string;
+  email: string;
+  cargo?: string;
 }
 
 interface AuthContextType {
@@ -21,7 +22,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      const userData = mockUsers.find((e: User) => e.email == JSON.parse(storedUser).email)
+      setUser(userData);
     }
   }, []);
 
