@@ -35,10 +35,12 @@ export const ModalGetFactura: React.FC<ModalGetFacturaProps> = ({
     return new Date(date).toLocaleDateString();
   };
 
+  // console.log(data)
   const calculateTotal = () => {
     let subtotal = 0;
     let iva = 0;
     data.forEach((detail) => {
+      // console.log(detail)
       subtotal += detail.cantidad * detail.precio * 0.88;
       iva += detail.cantidad * detail.precio * 0.12;
     });
@@ -54,13 +56,13 @@ export const ModalGetFactura: React.FC<ModalGetFacturaProps> = ({
   );
 
   const closeModal = () => setIsOpen(false);
-
+  // console.log(columns)
   return (
     <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
       <div className="modal-dialog modal-xl">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Factura #{order?.iD_Orden || "-"}</h5>
+            <h5 className="modal-title">Factura #{order?.id || "-"}</h5>
             <button type="button" className="btn-close" onClick={closeModal}></button>
           </div>
           <div className="modal-body">
@@ -69,7 +71,7 @@ export const ModalGetFactura: React.FC<ModalGetFacturaProps> = ({
                 <strong>Fecha:</strong> {formatDate(order?.fecha)}
               </div>
               <div className="col-6 text-end">
-                <strong>Cliente:</strong> {client?.nombre || ""} {client?.apellido || ""}
+                <strong>Cliente:</strong> {order?.cliente}
               </div>
             </div>
 

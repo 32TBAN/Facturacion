@@ -43,7 +43,7 @@ export const productosColumns = [
 
 export const productosColumns2 = [
     {
-        id: 'iD_Producto',
+        id: 'id',
         label: 'Código',
     },
     {
@@ -58,7 +58,7 @@ export const productosColumns2 = [
         id: 'precio',
         label: 'Precio',
     },{
-        id: 'subtotal',
+        id: 'precioTotal',
         label: 'Subtotal',
     },{
         id: 'total',

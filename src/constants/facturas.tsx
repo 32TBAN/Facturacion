@@ -7,8 +7,8 @@ export const mockFacturas = [
         cedulaCliente: '1805102055',
         vendedor: 'ADMIN',
         estado: 'Pendiente',
-        subtotal: 260.47,
-        iva: 20.00,
+        subtotal: 3706.97,
+        iva: 12.00,
         total: 280.47,
         articulos: [
             {
