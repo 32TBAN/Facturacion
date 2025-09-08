@@ -39,12 +39,15 @@ export const ModalGetFactura: React.FC<ModalGetFacturaProps> = ({
   const calculateTotal = () => {
     let subtotal = 0;
     let iva = 0;
+    // console.log(data)
     data.forEach((detail) => {
-      // console.log(detail)
-      subtotal += detail.cantidad * detail.precio * 0.88;
-      iva += detail.cantidad * detail.precio * 0.12;
+      const precioBruto = detail.cantidad * detail.precio;
+      const precioConDescuento = precioBruto - (precioBruto * 0.12);
+
+      subtotal += precioConDescuento;
+      iva += precioConDescuento * 0.12;
     });
-    const total = subtotal + iva;
+    const total = subtotal + iva
     return { subtotal: subtotal.toFixed(2), total: total.toFixed(2) };
   };
 

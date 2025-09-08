@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { facturasColumns, mockFacturas } from "#constants/facturas";
-import { productosColumns2  } from "#constants/productos";
+import { productosColumns2 } from "#constants/productos";
 import { CustomTable } from "#components/CustomTable";
 import { ModalGetFactura } from "./ModalGetFactura";
 import { useAuth } from "#utils/auth";
@@ -18,7 +18,7 @@ export const SaleScreen = () => {
     const [modalFacIsOpen, setModalFacIsOpen] = useState(false);
     const [orden, setOrden] = useState<any>({});
     const [productos, setProductos] = useState<any[]>([]);
-    const { data: dataClients, isLoading: isCLients, error: errorClients } = useCustomers() 
+    const { data: dataClients, isLoading: isCLients, error: errorClients } = useCustomers()
     const [clients, setClients] = useState<any>([])
     const [client, setClient] = useState<any>({});
 
@@ -35,8 +35,13 @@ export const SaleScreen = () => {
     const facturas: any[] = useMemo(() => {
         if (Array.isArray(data)) return data;
         if (data?.orden && Array.isArray(data.orden)) return data.orden;
-        // console.log(mockFacturas)
-        return mockFacturas;
+        const tIva = mockFacturas.map((a: any) => ({
+            ...a,
+            total: (a.subtotal + (a.subtotal * a.iva)).toFixed(2)
+        })
+        )
+        // console.log(tIva)
+        return tIva;
     }, [data]);
 
     const handleEdit = (id: number) => navigate(`/Venta/${id}`);
@@ -56,12 +61,13 @@ export const SaleScreen = () => {
         const fac = facturas.find((f) => f.iD_Orden === id);
         if (!fac) return;
         setOrden(fac);
-        let articulos =  fac.articulos.map((a : any) =>({
+        let articulos = fac.articulos.map((a: any) => ({
             ...a,
-            total: (a.precioTotal - (a.precioTotal * 0.12)).toFixed(2)
+            precioTotal: (a.cantidad * a.precio).toFixed(2),
+            total: ((a.cantidad * a.precio) - ((a.cantidad * a.precio) * 0.12)).toFixed(2)
         }))
-        console.log(articulos)
-        setProductos(articulos|| []);
+        // console.log(articulos)
+        setProductos(articulos || []);
         const cli = clients.find((c: any) => c.id === fac.iD_Cliente);
         if (cli) setClient(cli);
         setModalFacIsOpen(true);

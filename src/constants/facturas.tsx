@@ -7,9 +7,8 @@ export const mockFacturas = [
         cedulaCliente: '1805102055',
         vendedor: 'ADMIN',
         estado: 'Pendiente',
-        subtotal: 3706.97,
-        iva: 12.00,
-        total: 280.47,
+        subtotal: 20537.54,
+        iva: 0.12,
         articulos: [
             {
                 id: 1,
@@ -17,8 +16,15 @@ export const mockFacturas = [
                 descripcion: 'Samsung A20',
                 existencia: 80,
                 cantidad: 40,
-                precio: 260.47,
-                precioTotal: 4212.47,
+                precio: 260.47
+            },
+            {
+                id: 2,
+                codigo: 2,
+                descripcion: 'Samsung A20',
+                existencia: 80,
+                cantidad: 40,
+                precio: 260.47
             },
         ],
     },

@@ -4,7 +4,9 @@ import './index.css'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './utils/router'
 import { AuthProvider } from './utils/auth'
+import Modal from "react-modal";
 
+Modal.setAppElement("#root"); 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
