@@ -7,10 +7,10 @@ import { CustomTable } from "#components/CustomTable";
 import { ModalGetFactura } from "./ModalGetFactura";
 import { useAuth } from "#utils/auth";
 import useAxios from "#hooks/useAxios";
-import { mockClientes } from "#constants/clientes"
+import { mockClientes } from "#constants/clientes.tsx"
 import { useCustomers } from "../../hooks/useAxios";
 
-export const SaleScreen = () => {
+export default function SaleScreen() {
     const { user } = useAuth();
     const isAdmin = user?.cargo === "Admin";
     const navigate = useNavigate();
@@ -44,8 +44,8 @@ export const SaleScreen = () => {
         return tIva;
     }, [data]);
 
-    const handleEdit = (id: number) => navigate(`/Venta/${id}`);
-    const handleAdd = () => navigate(`/Venta`);
+    // const handleEdit = (id: number) => navigate(`/Venta/${id}`);
+    const handleAdd = () => navigate(`/venta`);
 
     const handleDelete = async (id: number) => {
         try {
@@ -76,6 +76,7 @@ export const SaleScreen = () => {
     const filteredFacturas = Array.isArray(facturas)
         ? facturas.filter((f) => Object.values(f).join(" ").toLowerCase().includes(filterText.toLowerCase()))
         : [];
+
 
     const dataCustom = filteredFacturas.map((factura) => ({
         ...factura,
@@ -114,7 +115,7 @@ export const SaleScreen = () => {
             </div>
 
             <div className="card m-2 p-3">
-                <CustomTable colums={facturasColumns} data={dataCustom} />
+                <CustomTable colums={facturasColumns} data={dataCustom} showPagination={!modalFacIsOpen} />
             </div>
 
             <ModalGetFactura
