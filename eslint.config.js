@@ -6,9 +6,20 @@ import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 
 export default tseslint.config([
-  globalIgnores(['dist']),
+  globalIgnores([
+    'dist',
+    'src/components/**',
+    'src/constants/**',
+    'src/hooks/**',
+    'src/layouts/**',
+    'src/pages/**',
+    'src/utils/**',
+    'src/App.tsx',
+    'src/App.css',
+    'src/index.css',
+  ]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/main.tsx', 'src/app/**/*.{ts,tsx}', 'src/features/**/*.{ts,tsx}', 'src/shared/**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -18,6 +29,9 @@ export default tseslint.config([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+    },
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
 ])
