@@ -1,30 +1,47 @@
-# 🧾 Sistema de Facturación
+# Primeo Facturacion Demo
 
-Pequeña aplicación web para la gestión de clientes, productos y facturas.  
-Permite registrar facturas de manera rápida, buscar clientes y añadir productos fácilmente.
+Demo frontend para portafolio construido con React, TypeScript y Vite. El proyecto simula una suite administrativa de facturacion con cuatro modulos: facturas, clientes, productos y usuarios.
 
-## ✨ Características principales
-- 📋 Gestión de clientes y productos.  
-- 🧾 Creación y administración de facturas.  
-- 🔎 Búsqueda y filtrado en tablas.  
-- ✅ Interfaz sencilla con modales para selección rápida.
+La app fue reorganizada como un frontend puro:
 
-## 🖼️ Capturas de pantalla
+- arquitectura por features
+- auth demo local
+- capa de datos mock persistida en `localStorage`
+- sistema visual editorial moderno con `ledger rail`
+- documentacion tecnica separada en `docs/`
 
-![Clientes](./doc/home.png)
+## Scripts
 
-![Productos](./doc/login.png)
+- `npm run dev`
+- `npm run build`
+- `npm run lint`
+- `npm run test`
 
-![Modal](./doc/sales.png)
+## Estructura
 
-![Facturación](./doc/users.png)
+```text
+src/
+  app/
+  features/
+  shared/
+docs/
+  architecture.md
+  ui-system.md
+  portfolio-notes.md
+  screens/
+```
 
----
+## Demo scope
 
-## 🚀 Tecnologías usadas
-- React + TypeScript  
-- Vite  
-- Bootstrap  
-- Axios  
+- Dashboard de resumen operativo
+- Listado y detalle lateral de facturas
+- Composer de facturas con calculo de totales
+- Gestion demo de clientes, productos y usuarios
+- Reinicio de datos demo para exploracion de portafolio
 
----
+## Documentacion
+
+- [Arquitectura](./docs/architecture.md)
+- [Sistema UI](./docs/ui-system.md)
+- [Notas de portafolio](./docs/portfolio-notes.md)
+- [Capturas](./docs/screens/README.md)

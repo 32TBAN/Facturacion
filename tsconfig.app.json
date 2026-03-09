@@ -4,6 +4,13 @@
     "target": "ES2022",
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@features/*": ["src/features/*"],
+      "@shared/*": ["src/shared/*"],
+      "@assets/*": ["src/assets/*"]
+    },
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -23,5 +30,11 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": [
+    "src/main.tsx",
+    "src/vite-env.d.ts",
+    "src/app/**/*",
+    "src/features/**/*",
+    "src/shared/**/*"
+  ]
 }

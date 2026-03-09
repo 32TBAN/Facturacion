@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>Primeo Facturacion</title>
+  <rect x="8" y="8" width="48" height="48" rx="14" fill="#204e52" />
+  <path
+    d="M24 18h12l8 8v20H24Z"
+    fill="none"
+    stroke="#f5f0e7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="3"
+  />
+  <path
+    d="M36 18v10h8M29 34h10M29 40h10"
+    fill="none"
+    stroke="#d8c8a8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="3"
+  />
+</svg>
